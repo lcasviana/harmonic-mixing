@@ -1,32 +1,53 @@
-// --- 1. DATA ---
+// --- 1. TYPES & DATA ---
+interface HSLColor {
+  h: number;
+  s: number;
+  l: number;
+}
+
+interface WheelSegment {
+  camelot: string;
+  key: string;
+  color: HSLColor;
+}
+
+/**
+ * Converts an HSL color object to a CSS hsl() string.
+ * @param color - The HSL color object.
+ * @returns A string in the format "hsl(h s% l%)".
+ */
+function hslToString(color: HSLColor): string {
+  return `hsl(${color.h} ${color.s}% ${color.l}%)`;
+}
+
 // Data for each segment of the Camelot Wheel.
-const wheelData = [
+const wheelData: WheelSegment[] = [
   // Outer Ring (Major Keys)
-  { camelot: "1B", key: "B Major", color: "hsl(150 75% 50%)" },
-  { camelot: "2B", key: "F-Sharp Major", color: "hsl(120 75% 50%)" },
-  { camelot: "3B", key: "D-Flat Major", color: "hsl(90 75% 50%)" },
-  { camelot: "4B", key: "A-Flat Major", color: "hsl(60 75% 50%)" },
-  { camelot: "5B", key: "E-Flat Major", color: "hsl(30 75% 50%)" },
-  { camelot: "6B", key: "B-Flat Major", color: "hsl(0 75% 50%)" },
-  { camelot: "7B", key: "F Major", color: "hsl(330 75% 50%)" },
-  { camelot: "8B", key: "C Major", color: "hsl(300 75% 50%)" },
-  { camelot: "9B", key: "G Major", color: "hsl(270 75% 50%)" },
-  { camelot: "10B", key: "D Major", color: "hsl(240 75% 50%)" },
-  { camelot: "11B", key: "A Major", color: "hsl(210 75% 50%)" },
-  { camelot: "12B", key: "E Major", color: "hsl(180 75% 50%)" },
+  { camelot: "1B", key: "B Major", color: { h: 150, s: 75, l: 50 } },
+  { camelot: "2B", key: "F-Sharp Major", color: { h: 120, s: 75, l: 50 } },
+  { camelot: "3B", key: "D-Flat Major", color: { h: 90, s: 75, l: 50 } },
+  { camelot: "4B", key: "A-Flat Major", color: { h: 60, s: 75, l: 50 } },
+  { camelot: "5B", key: "E-Flat Major", color: { h: 30, s: 75, l: 50 } },
+  { camelot: "6B", key: "B-Flat Major", color: { h: 0, s: 75, l: 50 } },
+  { camelot: "7B", key: "F Major", color: { h: 330, s: 75, l: 50 } },
+  { camelot: "8B", key: "C Major", color: { h: 300, s: 75, l: 50 } },
+  { camelot: "9B", key: "G Major", color: { h: 270, s: 75, l: 50 } },
+  { camelot: "10B", key: "D Major", color: { h: 240, s: 75, l: 50 } },
+  { camelot: "11B", key: "A Major", color: { h: 210, s: 75, l: 50 } },
+  { camelot: "12B", key: "E Major", color: { h: 180, s: 75, l: 50 } },
   // Inner Ring (Minor Keys)
-  { camelot: "1A", key: "A-Flat Minor", color: "hsl(150 50% 60%)" },
-  { camelot: "2A", key: "E-Flat Minor", color: "hsl(120 50% 60%)" },
-  { camelot: "3A", key: "B-Flat Minor", color: "hsl(90 50% 60%)" },
-  { camelot: "4A", key: "F Minor", color: "hsl(60 50% 60%)" },
-  { camelot: "5A", key: "C Minor", color: "hsl(30 50% 60%)" },
-  { camelot: "6A", key: "G Minor", color: "hsl(0 50% 60%)" },
-  { camelot: "7A", key: "D Minor", color: "hsl(330 50% 60%)" },
-  { camelot: "8A", key: "A Minor", color: "hsl(300 50% 60%)" },
-  { camelot: "9A", key: "E Minor", color: "hsl(270 50% 60%)" },
-  { camelot: "10A", key: "B Minor", color: "hsl(240 50% 60%)" },
-  { camelot: "11A", key: "F-Sharp Minor", color: "hsl(210 50% 60%)" },
-  { camelot: "12A", key: "D-Flat Minor", color: "hsl(180 50% 60%)" },
+  { camelot: "1A", key: "A-Flat Minor", color: { h: 150, s: 50, l: 60 } },
+  { camelot: "2A", key: "E-Flat Minor", color: { h: 120, s: 50, l: 60 } },
+  { camelot: "3A", key: "B-Flat Minor", color: { h: 90, s: 50, l: 60 } },
+  { camelot: "4A", key: "F Minor", color: { h: 60, s: 50, l: 60 } },
+  { camelot: "5A", key: "C Minor", color: { h: 30, s: 50, l: 60 } },
+  { camelot: "6A", key: "G Minor", color: { h: 0, s: 50, l: 60 } },
+  { camelot: "7A", key: "D Minor", color: { h: 330, s: 50, l: 60 } },
+  { camelot: "8A", key: "A Minor", color: { h: 300, s: 50, l: 60 } },
+  { camelot: "9A", key: "E Minor", color: { h: 270, s: 50, l: 60 } },
+  { camelot: "10A", key: "B Minor", color: { h: 240, s: 50, l: 60 } },
+  { camelot: "11A", key: "F-Sharp Minor", color: { h: 210, s: 50, l: 60 } },
+  { camelot: "12A", key: "D-Flat Minor", color: { h: 180, s: 50, l: 60 } },
 ];
 
 // --- 2. SVG CONSTANTS & UTILS ---
@@ -109,9 +130,10 @@ function describeArc(outerRadius: number, innerRadius: number, startAngle: numbe
  * @param segmentData - The data object for the segment.
  * @param index - The index of the segment (0-11).
  * @param isOuter - True if this segment is for the outer ring.
+ * @param gradientId - The ID of the gradient to use for the fill.
  * @returns An SVG group element containing the segment.
  */
-function createSegment(segmentData: (typeof wheelData)[0], index: number, isOuter: boolean): SVGGElement {
+function createSegment(segmentData: WheelSegment, isOuter: boolean, gradientId: string): SVGGElement {
   const group = document.createElementNS(SVG_NS, "g");
   const path = document.createElementNS(SVG_NS, "path");
 
@@ -122,7 +144,7 @@ function createSegment(segmentData: (typeof wheelData)[0], index: number, isOute
   const [r1, r2] = isOuter ? [INNER_RADIUS, OUTER_RADIUS] : [CENTER_CIRCLE_RADIUS, INNER_RADIUS];
 
   path.setAttribute("d", describeArc(r2, r1, startAngle, endAngle));
-  path.setAttribute("fill", segmentData.color);
+  path.setAttribute("fill", `url(#${gradientId})`);
   path.setAttribute("stroke", "#333");
   path.setAttribute("stroke-width", "1");
 
@@ -182,16 +204,53 @@ function initializeWheel() {
   svg.setAttribute("viewBox", `0 0 ${SVG_SIZE} ${SVG_SIZE}`);
   svg.setAttribute("aria-label", "Camelot Wheel for harmonic mixing");
 
+  const defs = document.createElementNS(SVG_NS, "defs");
+  svg.appendChild(defs);
+
   // Reorder data so it's drawn in visual clockwise order starting from the top
   const outerRingData = wheelData.slice(0, 12).sort((a, b) => parseInt(a.camelot) - parseInt(b.camelot));
   const innerRingData = wheelData.slice(12).sort((a, b) => parseInt(a.camelot) - parseInt(b.camelot));
 
-  outerRingData.forEach((data, i) => {
-    svg.appendChild(createSegment(data, i, true));
-  });
+  // Create gradients and segments for both rings
+  [outerRingData, innerRingData].forEach((ringData, ringIndex) => {
+    const isOuter = ringIndex === 0;
+    const [r1, r2] = isOuter ? [INNER_RADIUS, OUTER_RADIUS] : [CENTER_CIRCLE_RADIUS, INNER_RADIUS];
 
-  innerRingData.forEach((data, i) => {
-    svg.appendChild(createSegment(data, i, false));
+    ringData.forEach((data, i) => {
+      const gradientId = `grad-${data.camelot}`;
+      const gradient = document.createElementNS(SVG_NS, "linearGradient");
+      gradient.setAttribute("id", gradientId);
+      gradient.setAttribute("gradientUnits", "userSpaceOnUse");
+
+      const camelotNumber = parseInt(data.camelot);
+      const startAngle = camelotNumber * ANGLE_PER_SEGMENT + ANGLE_OFFSET;
+      const endAngle = startAngle + ANGLE_PER_SEGMENT;
+      const midRadius = (r1 + r2) / 2;
+
+      const p1 = polarToCartesian(midRadius, startAngle);
+      const p2 = polarToCartesian(midRadius, endAngle);
+
+      gradient.setAttribute("x1", String(p1.x));
+      gradient.setAttribute("y1", String(p1.y));
+      gradient.setAttribute("x2", String(p2.x));
+      gradient.setAttribute("y2", String(p2.y));
+
+      const stops = [
+        { offset: "0%", color: hslToString({ ...data.color, h: (data.color.h + 15) % 360 }) },
+        { offset: "50%", color: hslToString(data.color) },
+        { offset: "100%", color: hslToString({ ...data.color, h: (data.color.h - 15) % 360 }) },
+      ];
+
+      stops.forEach((stopInfo) => {
+        const stop = document.createElementNS(SVG_NS, "stop");
+        stop.setAttribute("offset", stopInfo.offset);
+        stop.setAttribute("stop-color", stopInfo.color);
+        gradient.appendChild(stop);
+      });
+
+      defs.appendChild(gradient);
+      svg.appendChild(createSegment(data, isOuter, gradientId));
+    });
   });
 
   container.appendChild(svg);
