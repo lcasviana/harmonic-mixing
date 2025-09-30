@@ -1,53 +1,53 @@
 // --- 1. TYPES & DATA ---
-interface HSLColor {
-  h: number;
-  s: number;
+interface OKLCHColor {
   l: number;
+  c: number;
+  h: number;
 }
 
 interface WheelSegment {
   camelot: string;
   key: string;
-  color: HSLColor;
+  color: OKLCHColor;
 }
 
 /**
- * Converts an HSL color object to a CSS hsl() string.
- * @param color - The HSL color object.
- * @returns A string in the format "hsl(h s% l%)".
+ * Converts an OKLCH color object to a CSS oklch() string.
+ * @param color - The OKLCH color object.
+ * @returns A string in the format "oklch(l c h)".
  */
-function hslToString(color: HSLColor): string {
-  return `hsl(${color.h} ${color.s}% ${color.l}%)`;
+function oklchToString(color: OKLCHColor): string {
+  return `oklch(${color.l} ${color.c} ${color.h})`;
 }
 
 // Data for each segment of the Camelot Wheel.
 const wheelData: WheelSegment[] = [
   // Outer Ring (Major Keys)
-  { camelot: "1B", key: "B Major", color: { h: 150, s: 75, l: 50 } },
-  { camelot: "2B", key: "F-Sharp Major", color: { h: 120, s: 75, l: 50 } },
-  { camelot: "3B", key: "D-Flat Major", color: { h: 90, s: 75, l: 50 } },
-  { camelot: "4B", key: "A-Flat Major", color: { h: 60, s: 75, l: 50 } },
-  { camelot: "5B", key: "E-Flat Major", color: { h: 30, s: 75, l: 50 } },
-  { camelot: "6B", key: "B-Flat Major", color: { h: 0, s: 75, l: 50 } },
-  { camelot: "7B", key: "F Major", color: { h: 330, s: 75, l: 50 } },
-  { camelot: "8B", key: "C Major", color: { h: 300, s: 75, l: 50 } },
-  { camelot: "9B", key: "G Major", color: { h: 270, s: 75, l: 50 } },
-  { camelot: "10B", key: "D Major", color: { h: 240, s: 75, l: 50 } },
-  { camelot: "11B", key: "A Major", color: { h: 210, s: 75, l: 50 } },
-  { camelot: "12B", key: "E Major", color: { h: 180, s: 75, l: 50 } },
+  { camelot: "1B", key: "B Major", color: { l: 0.65, c: 0.2, h: 150 } },
+  { camelot: "2B", key: "F-Sharp Major", color: { l: 0.65, c: 0.2, h: 120 } },
+  { camelot: "3B", key: "D-Flat Major", color: { l: 0.65, c: 0.2, h: 90 } },
+  { camelot: "4B", key: "A-Flat Major", color: { l: 0.65, c: 0.2, h: 60 } },
+  { camelot: "5B", key: "E-Flat Major", color: { l: 0.65, c: 0.2, h: 30 } },
+  { camelot: "6B", key: "B-Flat Major", color: { l: 0.65, c: 0.2, h: 0 } },
+  { camelot: "7B", key: "F Major", color: { l: 0.65, c: 0.2, h: 330 } },
+  { camelot: "8B", key: "C Major", color: { l: 0.65, c: 0.2, h: 300 } },
+  { camelot: "9B", key: "G Major", color: { l: 0.65, c: 0.2, h: 270 } },
+  { camelot: "10B", key: "D Major", color: { l: 0.65, c: 0.2, h: 240 } },
+  { camelot: "11B", key: "A Major", color: { l: 0.65, c: 0.2, h: 210 } },
+  { camelot: "12B", key: "E Major", color: { l: 0.65, c: 0.2, h: 180 } },
   // Inner Ring (Minor Keys)
-  { camelot: "1A", key: "A-Flat Minor", color: { h: 150, s: 50, l: 60 } },
-  { camelot: "2A", key: "E-Flat Minor", color: { h: 120, s: 50, l: 60 } },
-  { camelot: "3A", key: "B-Flat Minor", color: { h: 90, s: 50, l: 60 } },
-  { camelot: "4A", key: "F Minor", color: { h: 60, s: 50, l: 60 } },
-  { camelot: "5A", key: "C Minor", color: { h: 30, s: 50, l: 60 } },
-  { camelot: "6A", key: "G Minor", color: { h: 0, s: 50, l: 60 } },
-  { camelot: "7A", key: "D Minor", color: { h: 330, s: 50, l: 60 } },
-  { camelot: "8A", key: "A Minor", color: { h: 300, s: 50, l: 60 } },
-  { camelot: "9A", key: "E Minor", color: { h: 270, s: 50, l: 60 } },
-  { camelot: "10A", key: "B Minor", color: { h: 240, s: 50, l: 60 } },
-  { camelot: "11A", key: "F-Sharp Minor", color: { h: 210, s: 50, l: 60 } },
-  { camelot: "12A", key: "D-Flat Minor", color: { h: 180, s: 50, l: 60 } },
+  { camelot: "1A", key: "A-Flat Minor", color: { l: 0.75, c: 0.2, h: 150 } },
+  { camelot: "2A", key: "E-Flat Minor", color: { l: 0.75, c: 0.2, h: 120 } },
+  { camelot: "3A", key: "B-Flat Minor", color: { l: 0.75, c: 0.2, h: 90 } },
+  { camelot: "4A", key: "F Minor", color: { l: 0.75, c: 0.2, h: 60 } },
+  { camelot: "5A", key: "C Minor", color: { l: 0.75, c: 0.2, h: 30 } },
+  { camelot: "6A", key: "G Minor", color: { l: 0.75, c: 0.2, h: 0 } },
+  { camelot: "7A", key: "D Minor", color: { l: 0.75, c: 0.2, h: 330 } },
+  { camelot: "8A", key: "A Minor", color: { l: 0.75, c: 0.2, h: 300 } },
+  { camelot: "9A", key: "E Minor", color: { l: 0.75, c: 0.2, h: 270 } },
+  { camelot: "10A", key: "B Minor", color: { l: 0.75, c: 0.2, h: 240 } },
+  { camelot: "11A", key: "F-Sharp Minor", color: { l: 0.75, c: 0.2, h: 210 } },
+  { camelot: "12A", key: "D-Flat Minor", color: { l: 0.75, c: 0.2, h: 180 } },
 ];
 
 // --- 2. SVG CONSTANTS & UTILS ---
@@ -236,9 +236,9 @@ function initializeWheel() {
       gradient.setAttribute("y2", String(p2.y));
 
       const stops = [
-        { offset: "0%", color: hslToString({ ...data.color, h: (data.color.h + 15) % 360 }) },
-        { offset: "50%", color: hslToString(data.color) },
-        { offset: "100%", color: hslToString({ ...data.color, h: (data.color.h - 15) % 360 }) },
+        { offset: "0%", color: oklchToString({ ...data.color, h: (data.color.h + 15) % 360 }) },
+        { offset: "50%", color: oklchToString(data.color) },
+        { offset: "100%", color: oklchToString({ ...data.color, h: (data.color.h - 15) % 360 }) },
       ];
 
       stops.forEach((stopInfo) => {
