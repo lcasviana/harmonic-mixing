@@ -11,7 +11,7 @@ type CamelotWheel = {
   major: CamelotKeyMajor[];
 };
 
-const camelotWheel: Readonly<CamelotWheel> = Object.freeze({
+export const camelotWheel: Readonly<CamelotWheel> = Object.freeze({
   minor: Array.from(camelotKeysMinor),
   major: Array.from(camelotKeysMajor),
 });
@@ -27,7 +27,7 @@ type KeyHarmonicMixing = {
   moodShifter: CamelotKey;
 };
 
-const harmonicMixing: Readonly<Record<CamelotKey, KeyHarmonicMixing>> = Object.freeze({
+export const harmonicMixing: Readonly<Record<CamelotKey, KeyHarmonicMixing>> = Object.freeze({
   "1A": { perfect: "1A", minusOne: "12A", plusOne: "2A", energyBoost: "3A", scaleChange: "1B", diagonal: "12B", jaws: "8A", moodShifter: "4B" },
   "2A": { perfect: "2A", minusOne: "1A", plusOne: "3A", energyBoost: "4A", scaleChange: "2B", diagonal: "1B", jaws: "9A", moodShifter: "5B" },
   "3A": { perfect: "3A", minusOne: "2A", plusOne: "4A", energyBoost: "5A", scaleChange: "3B", diagonal: "2B", jaws: "10A", moodShifter: "6B" },
@@ -59,7 +59,7 @@ type KeyNotation = {
   long: string;
 };
 
-const keyDictionary: Readonly<Record<CamelotKey, KeyNotation>> = Object.freeze({
+export const keyDictionary: Readonly<Record<CamelotKey, KeyNotation>> = Object.freeze({
   "1A": { short: "1A", long: "A-Flat Minor" },
   "2A": { short: "2A", long: "E-Flat Minor" },
   "3A": { short: "3A", long: "B-Flat Minor" },
@@ -92,7 +92,7 @@ type ColorOklch = {
   h: number;
 };
 
-const colorDictionary: Readonly<Record<CamelotKey, ColorOklch>> = Object.freeze({
+export const colorDictionary: Readonly<Record<CamelotKey, ColorOklch>> = Object.freeze({
   "1A": { l: 0.75, c: 0.2, h: 150 },
   "2A": { l: 0.75, c: 0.2, h: 120 },
   "3A": { l: 0.75, c: 0.2, h: 90 },
@@ -124,7 +124,7 @@ const colorDictionary: Readonly<Record<CamelotKey, ColorOklch>> = Object.freeze(
  * @param color `ColorOklch`
  * @returns `"oklch(l c h)"`.
  */
-function oklch({ l, c, h }: ColorOklch): string {
+export function oklch({ l, c, h }: ColorOklch): string {
   return `oklch(${l} ${c} ${h})`;
 }
 
@@ -214,6 +214,7 @@ function describeArc(outerRadius: number, innerRadius: number, startAngle: numbe
  */
 function createSegment(camelotKey: CamelotKey, isOuter: boolean, gradientId: string): SVGGElement {
   const group = document.createElementNS(SVG_NS, "g");
+  group.id = `segment-${camelotKey}`;
   const path = document.createElementNS(SVG_NS, "path");
 
   const camelotNumber = parseInt(camelotKey);
@@ -259,6 +260,14 @@ function createSegment(camelotKey: CamelotKey, isOuter: boolean, gradientId: str
   group.appendChild(path);
   group.appendChild(camelotKeyText);
   group.appendChild(musicalKeyText);
+
+  group.addEventListener("mouseenter", () => {
+    group.dispatchEvent(new CustomEvent("highlight-key", { detail: { key: camelotKey }, bubbles: true, composed: true }));
+  });
+
+  group.addEventListener("mouseleave", () => {
+    group.dispatchEvent(new CustomEvent("unhighlight-key", { bubbles: true, composed: true }));
+  });
 
   return group;
 }
