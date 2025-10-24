@@ -1,59 +1,79 @@
-import { Component, For, createMemo } from "solid-js";
+import { Component, createSignal, For } from "solid-js";
 
 import { harmonicMixing } from "~/data/harmonic-mixing";
 import { keyColors } from "~/data/key-colors";
 import { keyNotation } from "~/data/key-notation";
 import { camelotKeys } from "~/models/camelot-key";
-import { HarmonicMixing, HarmonicMixingProps } from "~/models/harmonic-mixing";
+import { harmonicMixingLabels, HarmonicMixingProps, HarmonicMixingType, harmonicMixingTypes } from "~/models/harmonic-mixing";
 import { oklch } from "~/utils/color-util";
 
-export const HarmonicMixingTable: Component<HarmonicMixingProps> = (props) => {
-  const headers = ["Key", "-1", "+1", "Energy Boost", "Scale Change", "Diagonal", "Jaws", "Mood Shifter"];
-  const mixTypes: (keyof HarmonicMixing)[] = ["minusOne", "plusOne", "energyBoost", "scaleChange", "diagonal", "jaws", "moodShifter"];
-
+export const HarmonicMixingTable: Component<HarmonicMixingProps> = ({ highlightedKey, setHighlightKey }) => {
+  const [highlightedMix, setHighlightedMix] = createSignal<HarmonicMixingType | null>(null);
   return (
-    <table class="w-full border-collapse text-left">
+    <table class="w-full table-fixed border-collapse text-left">
       <thead>
         <tr>
-          <For each={headers}>{(header) => <th class="border-b border-neutral-800 p-2">{header}</th>}</For>
+          <For each={harmonicMixingTypes}>
+            {(mix) => {
+              const highlightTh = () => highlightedMix() === mix;
+              const fadeTh = () => !!highlightedMix() && !highlightTh();
+              const textColor = () => {
+                const key = highlightedKey();
+                return key ? oklch(keyColors[harmonicMixing[key][mix]]) : "white";
+              };
+              return (
+                <th
+                  style={{ color: textColor() }}
+                  class="p-2 transition-all duration-200 ease-out"
+                  classList={{ "font-normal opacity-75": fadeTh() }}
+                  scope="col"
+                >
+                  {harmonicMixingLabels[mix]}
+                </th>
+              );
+            }}
+          </For>
         </tr>
       </thead>
       <tbody>
         <For each={camelotKeys}>
           {(key) => {
-            const mix = harmonicMixing[key];
-            const isRowHighlighted = createMemo(() => props.highlightedKey() === key);
-            const isFaded = createMemo(() => props.highlightedKey() && !isRowHighlighted());
-
+            const highlightRow = () => highlightedKey() === key;
+            const fadeRow = () => !!highlightedKey() && !highlightRow();
             return (
               <tr
-                onMouseEnter={() => props.setHighlightKey(key)}
-                onMouseLeave={() => props.setHighlightKey(null)}
-                class="cursor-pointer hover:bg-neutral-800"
-                style={{ opacity: isFaded() ? 0.3 : 1, transition: "opacity 0.2s" }}
+                class="outline-0 transition-all duration-200 ease-out"
+                tabindex="0"
+                onMouseEnter={() => setHighlightKey(key)}
+                onMouseLeave={() => setHighlightKey(null)}
+                onFocus={() => setHighlightKey(key)}
+                onBlur={() => setHighlightKey(null)}
               >
-                <td
-                  class="p-2 font-bold"
-                  style={{
-                    "background-color": isRowHighlighted() ? oklch(keyColors[key]) : "transparent",
-                    "color": isRowHighlighted() ? "white" : oklch(keyColors[key]),
-                  }}
-                >
-                  {key} <span class={`text-sm font-normal ${isRowHighlighted() ? "" : "text-neutral-400"}`}>({keyNotation[key].long})</span>
-                </td>
-                <For each={mixTypes}>
-                  {(mixType) => {
-                    const mixKey = mix[mixType];
+                <For each={harmonicMixingTypes}>
+                  {(mix) => {
+                    const mixKey = harmonicMixing[key][mix];
+                    const backgroundColor = () => (highlightRow() ? oklch(keyColors[mixKey]) : "transparent");
+                    const fontWeight = () => (highlightRow() && highlightedMix() === mix ? "bold" : "normal");
+                    const textColor = () => (highlightRow() ? "white" : oklch(keyColors[mixKey]));
+                    const fadeTd = () => {
+                      if (!fadeRow()) return false;
+                      const key = highlightedKey();
+                      const mix = highlightedMix();
+                      if (!mix && key) return mixKey !== key;
+                      return key && mix ? mixKey !== harmonicMixing[key][mix] : false;
+                    };
                     return (
                       <td
-                        class="p-2"
-                        style={{
-                          "background-color": isRowHighlighted() ? oklch(keyColors[mixKey]) : "transparent",
-                          "color": isRowHighlighted() ? "white" : oklch(keyColors[mixKey]),
-                        }}
+                        style={{ "background-color": backgroundColor(), "color": textColor(), "font-weight": fontWeight() }}
+                        class="p-2 transition-all duration-200 ease-out"
+                        classList={{ "opacity-25": fadeTd() }}
+                        onMouseEnter={() => setHighlightedMix(mix)}
+                        onMouseLeave={() => setHighlightedMix(null)}
                       >
-                        {mixKey}{" "}
-                        <span class={`text-sm font-normal ${isRowHighlighted() ? "" : "text-neutral-400"}`}>({keyNotation[mixKey].long})</span>
+                        {mixKey}&nbsp;
+                        <span class="text-sm font-normal" classList={{ "text-neutral-400": !highlightRow() }}>
+                          ({keyNotation[mixKey].long})
+                        </span>
                       </td>
                     );
                   }}

@@ -10,11 +10,9 @@ import "./app.css";
 const App: Component = () => {
   const [highlightedKey, setHighlightedKey] = createSignal<CamelotKey | null>(null);
   return (
-    <main>
-      <h1>Harmonic Mixing</h1>
-      <div style={{ "display": "flex", "justify-content": "center", "margin-bottom": "2rem" }}>
-        <CamelotWheel highlightedKey={highlightedKey} setHighlightKey={(key) => setHighlightedKey(key)} />
-      </div>
+    <main class="flex h-full flex-wrap">
+      <h1 class="basis-full text-center text-5xl">Harmonic Mixing</h1>
+      <CamelotWheel highlightedKey={highlightedKey} setHighlightKey={(key) => setHighlightedKey(key)} />
       <HarmonicMixingTable highlightedKey={highlightedKey} setHighlightKey={(key) => setHighlightedKey(key)} />
     </main>
   );

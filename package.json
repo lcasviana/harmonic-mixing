@@ -18,11 +18,11 @@
     "vinxi": "^0.5.8"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.15",
+    "@tailwindcss/vite": "^4.1.16",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
-    "tailwindcss": "^4.1.15"
+    "tailwindcss": "^4.1.16"
   },
   "engines": {
     "node": ">=22"
