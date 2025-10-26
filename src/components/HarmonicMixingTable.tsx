@@ -1,4 +1,4 @@
-import { Component, createSignal, For } from "solid-js";
+import { Component, createMemo, createSignal, For } from "solid-js";
 
 import { harmonicMixing } from "~/data/harmonic-mixing";
 import { keyColors } from "~/data/key-colors";
@@ -15,12 +15,12 @@ export const HarmonicMixingTable: Component<HarmonicMixingProps> = ({ highlighte
         <tr>
           <For each={harmonicMixingTypes}>
             {(mix) => {
-              const highlightTh = () => highlightedMix() === mix;
-              const fadeTh = () => !!highlightedMix() && !highlightTh();
-              const textColor = () => {
+              const highlightTh = createMemo(() => highlightedMix() === mix);
+              const fadeTh = createMemo(() => !!highlightedMix() && !highlightTh());
+              const textColor = createMemo(() => {
                 const key = highlightedKey();
                 return key ? oklch(keyColors[harmonicMixing[key][mix]]) : "white";
-              };
+              });
               return (
                 <th
                   style={{ color: textColor() }}
@@ -38,8 +38,8 @@ export const HarmonicMixingTable: Component<HarmonicMixingProps> = ({ highlighte
       <tbody>
         <For each={camelotKeys}>
           {(key) => {
-            const highlightRow = () => highlightedKey() === key;
-            const fadeRow = () => !!highlightedKey() && !highlightRow();
+            const highlightRow = createMemo(() => highlightedKey() === key);
+            const fadeRow = createMemo(() => !!highlightedKey() && !highlightRow());
             return (
               <tr
                 class="outline-0 transition-all duration-200 ease-out"
@@ -52,16 +52,16 @@ export const HarmonicMixingTable: Component<HarmonicMixingProps> = ({ highlighte
                 <For each={harmonicMixingTypes}>
                   {(mix) => {
                     const mixKey = harmonicMixing[key][mix];
-                    const backgroundColor = () => (highlightRow() ? oklch(keyColors[mixKey]) : "transparent");
-                    const fontWeight = () => (highlightRow() && highlightedMix() === mix ? "bold" : "normal");
-                    const textColor = () => (highlightRow() ? "white" : oklch(keyColors[mixKey]));
-                    const fadeTd = () => {
+                    const backgroundColor = createMemo(() => (highlightRow() ? oklch(keyColors[mixKey]) : "transparent"));
+                    const fontWeight = createMemo(() => (highlightRow() && highlightedMix() === mix ? "bold" : "normal"));
+                    const textColor = createMemo(() => (highlightRow() ? "white" : oklch(keyColors[mixKey])));
+                    const fadeTd = createMemo(() => {
                       if (!fadeRow()) return false;
                       const key = highlightedKey();
                       const mix = highlightedMix();
                       if (!mix && key) return mixKey !== key;
                       return key && mix ? mixKey !== harmonicMixing[key][mix] : false;
-                    };
+                    });
                     return (
                       <td
                         style={{ "background-color": backgroundColor(), "color": textColor(), "font-weight": fontWeight() }}

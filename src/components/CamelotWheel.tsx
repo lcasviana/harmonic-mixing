@@ -19,12 +19,12 @@ const ANGLE_PER_SEGMENT = 360 / NUM_SEGMENTS;
 const ANGLE_OFFSET = -15;
 
 export const CamelotWheel: Component<HarmonicMixingProps> = (props) => {
-  const keysToHighlight = () => {
+  const keysToHighlight = createMemo(() => {
     const key = props.highlightedKey();
     if (!key) return null;
     const mix = harmonicMixing[key];
     return [key, ...Object.values(mix)];
-  };
+  });
   const wheelSegments = createMemo(() => {
     return camelotKeys.map((key) => {
       const color = keyColors[key];
@@ -84,10 +84,10 @@ export const CamelotWheel: Component<HarmonicMixingProps> = (props) => {
       </defs>
       <For each={wheelSegments()}>
         {(segment) => {
-          const isHighlighted = () => {
+          const isHighlighted = createMemo(() => {
             const toHighlight = keysToHighlight();
             return !toHighlight || toHighlight.includes(segment.key);
-          };
+          });
           return (
             <g
               id={`segment-${segment.key}`}
