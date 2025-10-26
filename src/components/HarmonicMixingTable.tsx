@@ -24,7 +24,7 @@ export const HarmonicMixingTable: Component<HarmonicMixingProps> = ({ highlighte
               return (
                 <th
                   style={{ color: textColor() }}
-                  class="p-2 transition-all duration-200 ease-out"
+                  class="p-2 text-xs transition-all duration-200 ease-out md:text-sm lg:text-base"
                   classList={{ "font-normal opacity-75": fadeTh() }}
                   scope="col"
                 >
@@ -71,7 +71,7 @@ export const HarmonicMixingTable: Component<HarmonicMixingProps> = ({ highlighte
                         onMouseLeave={() => setHighlightedMix(null)}
                       >
                         {mixKey}&nbsp;
-                        <span class="text-sm font-normal" classList={{ "text-neutral-400": !highlightRow() }}>
+                        <span class="hidden text-sm font-normal lg:inline" classList={{ "text-neutral-400": !highlightRow() }}>
                           ({keyNotation[mixKey].long})
                         </span>
                       </td>
