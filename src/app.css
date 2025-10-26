@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+.bg-conic-camelot-wheel {
+  background-image: conic-gradient(
+    from -15deg,
+    oklch(0.65 0.2 180),
+    oklch(0.65 0.2 150),
+    oklch(0.65 0.2 120),
+    oklch(0.65 0.2 90),
+    oklch(0.65 0.2 60),
+    oklch(0.65 0.2 30),
+    oklch(0.65 0.2 0),
+    oklch(0.65 0.2 330),
+    oklch(0.65 0.2 300),
+    oklch(0.65 0.2 270),
+    oklch(0.65 0.2 240),
+    oklch(0.65 0.2 210)
+  );
+}
