@@ -1,5 +1,6 @@
 {
   "name": "harmonic-mixing",
+  "description": "Harmonic Mixing: An interactive web application for Harmonic Mixing for DJs, using the Camelot Wheel.",
   "type": "module",
   "private": true,
   "scripts": {

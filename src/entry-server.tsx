@@ -15,6 +15,7 @@ export default createHandler(() => (
           <meta name="apple-mobile-web-app-title" content="Harmonic Mixing" />
           <link rel="manifest" href="/site.webmanifest" />
           <title>Harmonic Mixing</title>
+          <meta name="description" content="An interactive web application for Harmonic Mixing for DJs, using the Camelot Wheel." />
           {assets}
         </head>
         <body class="h-dvh w-dvw overflow-auto bg-neutral-950 text-neutral-50 antialiased">
