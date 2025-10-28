@@ -17,6 +17,14 @@ const App: Component = () => {
       </h1>
       <CamelotWheel highlightedKey={highlightedKey} setHighlightKey={(key) => setHighlightedKey(key)} />
       <HarmonicMixingTable highlightedKey={highlightedKey} setHighlightKey={(key) => setHighlightedKey(key)} />
+      <footer class="flex basis-full items-end justify-center p-4 text-sm text-neutral-400">
+        <span class="whitespace-nowrap">
+          Made by{" "}
+          <a href="https://github.com/lcasviana" target="_blank" class="text-neutral-50 underline">
+            Lucas Viana
+          </a>
+        </span>
+      </footer>
     </main>
   );
 };
